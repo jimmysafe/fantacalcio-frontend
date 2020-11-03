@@ -6,6 +6,7 @@ export const LIVE_AUCTION = gql`
             _id
             name
             status
+            timer
             owner {
                 _id
             }

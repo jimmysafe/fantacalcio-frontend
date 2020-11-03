@@ -4,7 +4,7 @@ import { UPDATE_AUCTION_PLAYER } from '../../graphql/mutations/auction'
 import { useQuery, useMutation } from '@apollo/client'
 
 const Players = ({ auctionData, myTurn }) => {
-    const { data, loading, error } = useQuery(GET_PLAYERS)
+    const { data, loading } = useQuery(GET_PLAYERS)
     const [auctionPlayer] = useMutation(UPDATE_AUCTION_PLAYER)
     const [locked, setLocked] = useState(false)
 

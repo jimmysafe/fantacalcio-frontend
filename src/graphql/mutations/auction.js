@@ -59,3 +59,18 @@ mutation closeBid($playerId: ID!, $auctionId: ID!){
   }
 }
 `
+
+export const ADD_BID = gql`
+  mutation addBid($auctionId: ID!, $userId: ID!, $bidAmount: Int!) {
+    createBid(
+      auctionId: $auctionId,
+      userId: $userId,
+      bidAmount: $bidAmount
+    ){
+      from{
+        nickName
+      }
+      bid
+    }
+  }
+`

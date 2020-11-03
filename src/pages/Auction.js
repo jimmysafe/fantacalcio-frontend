@@ -8,6 +8,7 @@ import Users from '../components/auction/Users'
 import Players from '../components/auction/Players'
 import jwt_decode from "jwt-decode";
 import Bids from '../components/auction/Bids'
+import BidActions from '../components/auction/BidActions'
 
 const Auction = () => {
     const params = useParams()
@@ -72,34 +73,35 @@ const Auction = () => {
                     <Users users={users} auctionData={auctionData}/>
                 </div>
             </section>
-            <section className="bg-white shadow-md mx-1 w-2/4 min-h-full rounded-md">
+            <section className="bg-white shadow-md mx-1 w-2/4 min-h-full rounded-md flex flex-col">
                 <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
                     <h2>Asta</h2>
                 </div>
-                <div>
-                    <div className="p-5 flex justify-between items-center shadow-sm text-sm uppercase font-semibold">
-                        <div>
-                            Crediti:{" "}
-                            <span className="text-white bg-red-500 px-3 py-1 rounded-md">{userCredits.amount}</span>
-                        </div>
-                        {highestBid &&
-                        <div>
-                                Miglior Offerta:{" "}
-                                <span className="text-white bg-teal-400 px-3 py-1 rounded-md">{highestBid.from.nickName}: {highestBid.bid}</span>
-                        </div>
-                        }
+                <div className="p-5 flex justify-between items-center shadow-sm text-sm uppercase font-semibold">
+                    <div>
+                        Crediti:{" "}
+                        <span className="text-white bg-red-500 px-3 py-1 rounded-md">{userCredits.amount}</span>
                     </div>
-                    <div className="p-5 shadow-sm rounded-md m-5 bg-red-500 text-white text-center uppercase text-sm font-semibold">
-                        {auctionData.auction.bidPlayer ?
-                            <h3 className="font-bold">{auctionData.auction.bidPlayer.name}</h3>
-                        :
-                            <h3>{auctionData.auction.turnOf.nickName} sta scegliendo un giocatore..</h3>
-                        }
+                    {highestBid &&
+                    <div>
+                            Miglior Offerta:{" "}
+                            <span className="text-white bg-teal-400 px-3 py-1 rounded-md">{highestBid.from.nickName}: {highestBid.bid}</span>
                     </div>
+                    }
+                </div>
+                <div className="p-5 shadow-sm rounded-md m-5 bg-red-500 text-white text-center uppercase text-sm font-semibold">
+                    {auctionData.auction.bidPlayer ?
+                        <h3 className="font-bold">{auctionData.auction.bidPlayer.name}</h3>
+                    :
+                        <h3>{auctionData.auction.turnOf.nickName} sta scegliendo un giocatore..</h3>
+                    }
+                </div>
+                <div className="flex-1 flex flex-col">
+                    {auctionData.auction.bids.length > 0 &&
+                        <Bids auctionData={auctionData} />
+                    }
                     <div className="p-5">
-                        {auctionData.auction.bids.length > 0 &&
-                            <Bids auctionData={auctionData} />
-                        }
+                        <BidActions auctionData={auctionData} highestBid={highestBid}/>
                     </div>
                 </div>
             </section>

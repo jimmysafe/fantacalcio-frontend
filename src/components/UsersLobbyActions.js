@@ -29,7 +29,7 @@ const UsersLobbyActions = ({ auctionUsers, auctionData }) => {
             <div className="container mx-auto flex justify-center items-center h-20">
                     <button
                         onClick={() => userReady({ variables: { userId, auctionName: params.auctionName } })}
-                        className="px-5 py-2 rounded uppercase font-bold bg-teal-500 text-black"
+                        className="bg-teal-400 text-white p-3 uppercase font-bold text-xs rounded-md mt-3"
                     >
                         { user.ready ? 'Non Pronto' : 'Pronto' }
                     </button>
@@ -37,7 +37,7 @@ const UsersLobbyActions = ({ auctionUsers, auctionData }) => {
                         <button
                             // disabled={usersNotReady}
                             onClick={() => startAuction()}
-                            className="px-5 py-2 rounded uppercase font-bold bg-teal-500 text-black"
+                            className="bg-teal-400 text-white p-3 uppercase font-bold text-xs rounded-md mt-3 ml-5"
                         >
                             Start
                         </button>
