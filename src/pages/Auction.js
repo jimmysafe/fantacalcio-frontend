@@ -61,8 +61,6 @@ const Auction = () => {
 
     console.log(auctionData)
 
-    // #80808012
-
     return (
         <>
         <div className="container mx-auto py-5 min-h-screen flex justify-between">

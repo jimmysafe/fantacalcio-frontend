@@ -8,6 +8,7 @@ import UsersLobbyActions from '../components/UsersLobbyActions'
 const UsersLobby = () => {
     const params = useParams()
     const history = useHistory()
+
     const { 
         data: auctionData, 
         error: auctionError, 

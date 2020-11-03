@@ -1,9 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { REGISTER_USER, LOGIN_USER } from '../../graphql/mutations/user'
 import { useMutation } from '@apollo/client'
-
-
 
 const Register = () => {
     const history = useHistory()
