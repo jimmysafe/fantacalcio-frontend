@@ -3,7 +3,7 @@ import React from 'react'
 const Bids = ({ auctionData }) => {
     const bids = auctionData.auction.bids
     
-    const orderedBids = bids.sort((a, b) => b.bid-a.bid);
+    const orderedBids = bids.sort((a, b) => b.bid-a.bid).slice(0, 5);
 
     const wrapperClassNames = i => {
         switch(i){

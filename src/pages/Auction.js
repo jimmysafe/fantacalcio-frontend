@@ -103,11 +103,11 @@ const Auction = () => {
                     </div>
                 </div>
             </section>
-            <section className="bg-white shadow-md mx-1 w-1/4 rounded-md">    
+            <section className="bg-white shadow-md mx-1 w-1/4 rounded-md flex flex-col">    
                 <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
                     <h2>Giocatori</h2>
                 </div>   
-                <div className="p-5">
+                <div className="p-5 relative flex-1">
                     <Players auctionData={auctionData} myTurn={myTurn}/>
                 </div>        
             </section>
