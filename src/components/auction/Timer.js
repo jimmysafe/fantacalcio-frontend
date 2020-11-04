@@ -5,7 +5,7 @@ import { GET_USER } from '../../graphql/queries/user'
 import { useMutation } from '@apollo/client'
 import jwt_decode from "jwt-decode";
 
-const _Timer = ({ auctionData }) => {
+const _Timer = ({ auctionData, highestBid }) => {
 
     const [closeBid] = useMutation(CLOSE_BID_OFFER)
 
@@ -15,10 +15,12 @@ const _Timer = ({ auctionData }) => {
     const closeOffer = () => {
         const auctionId = auctionData.auction._id
         const playerId = player._id
-
-        closeBid({ 
-            variables: { auctionId, playerId }, 
-            refetchQueries: [{ query: GET_USER, variables: { userId } }] })
+        if(highestBid.from._id === userId){
+            closeBid({ 
+                variables: { auctionId, playerId }, 
+                refetchQueries: [{ query: GET_USER, variables: { userId } }] 
+            })
+        }
     }
 
     return (

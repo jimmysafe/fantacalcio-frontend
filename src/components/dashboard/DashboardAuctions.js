@@ -11,7 +11,7 @@ const DashboardAuctions = () => {
 
     if(loading) return <p>Loading..</p>
 
-    const auctions = userData && userData.user.auctions
+    const auctions = userData && userData.user && userData.user.auctions
     
     return (
         <div className="w-full flex px-5 justify-around flex-wrap" style={{ maxWidth: 400 }}>

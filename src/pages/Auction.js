@@ -60,8 +60,6 @@ const Auction = () => {
         updateUserTurn({ variables: { auctionId: auctionData.auction._id, userId: auctionData.auction.users[nextInline]._id } })
     }
 
-    console.log(auctionData)
-
     return (
         <>
         <div className="container mx-auto py-5 min-h-screen flex justify-between">
@@ -98,20 +96,18 @@ const Auction = () => {
                 </div>
                 <div className="flex-1 flex flex-col">
                     {auctionData.auction.bids.length > 0 &&
-                        <Bids auctionData={auctionData} />
+                        <Bids auctionData={auctionData} highestBid={highestBid}/>
                     }
                     <div className="p-5">
                         <BidActions auctionData={auctionData} highestBid={highestBid}/>
                     </div>
                 </div>
             </section>
-            <section className="bg-white shadow-md mx-1 w-1/4 rounded-md flex flex-col">    
+            <section className="bg-white shadow-md mx-1 w-1/4 rounded-md flex flex-col h-screen overflow-hidden">    
                 <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
                     <h2>Giocatori</h2>
                 </div>   
-                <div className="p-5 relative flex-1">
-                    <Players auctionData={auctionData} myTurn={myTurn}/>
-                </div>        
+                <Players auctionData={auctionData} myTurn={myTurn}/>     
             </section>
         </div>
             {/* to be removed */}

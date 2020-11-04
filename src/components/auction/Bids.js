@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Timer from './Timer'
 
-const Bids = ({ auctionData }) => {
+const Bids = ({ auctionData, highestBid }) => {
     const bids = auctionData.auction.bids
     const [showTimer, setShowTimer] = useState(false)
 
@@ -58,7 +58,7 @@ const Bids = ({ auctionData }) => {
                     </div>
                 ))}
             </div>
-            { showTimer && <Timer auctionData={auctionData}/> }
+            { showTimer && <Timer auctionData={auctionData} highestBid={highestBid}/> }
         </div>
     )
 }
