@@ -6,16 +6,14 @@ const Strikers = ({ auctionData, myTurn, locked, setLocked, auctionPlayer }) => 
     const { data, loading } = useQuery(GET_STRIKERS)
 
     if(loading) return <p>Loading..</p>
-    
+
+    const already_chosen_players = auctionData.auction.chosenPlayers
+
     return (
         <>
-            {(!myTurn || locked ) &&
-                <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-25 flex justify-center items-center rounded-b-md">
-                    <p className="uppercase text-md text-white font-bold">Locked</p>
-                </div>
-            }
             <h3 className="text-center uppercase text-xs py-2 font-bold text-white bg-teal-400 mb-5">Attaccanti</h3>
             {data.strikers.map(player => {
+                if(!already_chosen_players.includes(player._id)){
                 return (
                     <div 
                         key={player._id} 
@@ -30,8 +28,8 @@ const Strikers = ({ auctionData, myTurn, locked, setLocked, auctionPlayer }) => 
                     >
                         {player.name}
                     </div>
-                )}
-            )}
+                )} else return null
+            })}
         </>
     )
 }

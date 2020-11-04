@@ -60,6 +60,8 @@ const Auction = () => {
         updateUserTurn({ variables: { auctionId: auctionData.auction._id, userId: auctionData.auction.users[nextInline]._id } })
     }
 
+    console.log(auctionData)
+
     return (
         <>
         <div className="container mx-auto py-5 min-h-screen flex justify-between">
@@ -71,7 +73,7 @@ const Auction = () => {
                     <Users users={users} auctionData={auctionData}/>
                 </div>
             </section>
-            <section className="bg-white shadow-md mx-1 w-2/4 min-h-full rounded-md flex flex-col">
+            <section className="bg-white shadow-md mx-1 w-3/4 min-h-full rounded-md flex flex-col">
                 <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
                     <h2>Asta</h2>
                 </div>
@@ -105,16 +107,11 @@ const Auction = () => {
                     </div>
                 </div>
             </section>
-            <section className="bg-white shadow-md mx-1 w-1/4 rounded-md flex flex-col h-screen overflow-hidden">    
-                <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
-                    <h2>Giocatori</h2>
-                </div>   
-                <Players auctionData={auctionData} myTurn={myTurn}/>     
-            </section>
+            <Players auctionData={auctionData} myTurn={myTurn}/>     
         </div>
             {/* to be removed */}
-            <button onClick={() => nextTurn()}> nextTurn</button>
-            <button onClick={() => closeOffer()}>Close Bid</button> 
+            {/* <button onClick={() => nextTurn()}> nextTurn</button>
+            <button onClick={() => closeOffer()}>Close Bid</button>  */}
         </>
     )
 }

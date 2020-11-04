@@ -30,6 +30,7 @@ export const LIVE_AUCTION = gql`
                     nickName
                 }
             }
+            chosenPlayers
         }
     }
 `
