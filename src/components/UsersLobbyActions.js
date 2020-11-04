@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 import jwt_decode from "jwt-decode";
  
 
-const UsersLobbyActions = ({ auctionUsers, auctionData }) => {
+const UsersLobbyActions = ({ auctionData }) => {
 
     const params = useParams()
     const { userId } = jwt_decode(localStorage.getItem('authToken'));
@@ -16,8 +16,10 @@ const UsersLobbyActions = ({ auctionUsers, auctionData }) => {
     const [userReady] = useMutation(USER_READY)
     
     const isOwner = auctionData.auction.owner._id === userId
-    const user = auctionUsers.find(user => user._id === userId)
-    const usersNotReady = auctionUsers.find(x => x.ready !== true)
+    const user = auctionData.auction.users.find(user => user._id === userId)
+    const usersNotReady = auctionData.auction.users.find(x => x.ready === false)
+
+    console.log(usersNotReady)
 
     const startAuction = () => {
         updateUserTurn({ variables: { auctionId: auctionData.auction._id, userId: auctionData.auction.users[0]._id } })
@@ -35,11 +37,11 @@ const UsersLobbyActions = ({ auctionUsers, auctionData }) => {
                     </button>
                     {isOwner && 
                         <button
-                            // disabled={usersNotReady}
+                            disabled={usersNotReady}
                             onClick={() => startAuction()}
-                            className="bg-teal-400 text-white p-3 uppercase font-bold text-xs rounded-md mt-3 ml-5"
+                            className={` text-white p-3 uppercase font-bold text-xs rounded-md mt-3 ml-5 ${usersNotReady ? 'cursor-not-allowed bg-gray-500' : 'cursor-pointer bg-teal-400'}`}
                         >
-                            Start
+                            Inizia Asta
                         </button>
                     }
             </div>

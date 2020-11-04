@@ -3,15 +3,11 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { ApolloClient, InMemoryCache, ApolloProvider  } from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
-import { configureStore } from "@reduxjs/toolkit";
-import { Provider } from "react-redux";
 
-import reducer from "./store/reducer";
-
-const store = configureStore({ reducer });
+const apiUrl = process.env.NODE_ENV === 'development' ? 'localhost:4000' : 'api.ciaffardini.xyz'
 
 const link = new WebSocketLink({
-  uri: `ws://api.ciaffardini.xyz/graphql`,
+  uri: `ws://${apiUrl}/graphql`,
   options: {
     reconnect: true
   }
@@ -19,18 +15,16 @@ const link = new WebSocketLink({
 
 const client = new ApolloClient({
   link,
-  uri: 'http://api.ciaffardini.xyz',
+  uri: `http://${apiUrl}`,
   cache: new InMemoryCache()
 });
 
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Provider store={store}>
       <React.StrictMode>
         <App />
       </React.StrictMode>
-    </Provider>
   </ApolloProvider>,
   document.getElementById('root')
 );

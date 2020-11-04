@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useSubscription } from '@apollo/client'
-import { LIVE_USERS } from '../graphql/subscriptions/user'
 import { LIVE_AUCTION } from '../graphql/subscriptions/auction'
 import UsersLobbyActions from '../components/UsersLobbyActions'
 
@@ -15,26 +14,20 @@ const UsersLobby = () => {
         loading: auctionLoading 
     } = useSubscription(LIVE_AUCTION, { variables: { auctionName: params.auctionName } })
 
-    const { 
-        data: users, 
-        loading: usersLoading, 
-        error: usersError 
-    } = useSubscription(LIVE_USERS, { variables: { auctionName: params.auctionName }  });
-
     useEffect(() => {
         if(auctionData && auctionData.auction.status === 'started') {
             history.push(`/auction/${auctionData.auction.name}`)
         }
     }, [auctionData, history])
 
-    if(usersLoading || auctionLoading) return <p>Loading...</p>
+    if(auctionLoading) return <p>Loading...</p>
 
-    if(usersError || auctionError) {
-        console.log(usersError)
+    if(auctionError) {
+        console.log(auctionError)
         return <p>Error..</p>
     }
 
-    const { auctionUsers } = users
+    const users = auctionData && auctionData.auction.users
 
     return (
         <div className="container mx-auto">
@@ -43,7 +36,7 @@ const UsersLobby = () => {
                 <p>Codice Invito: <span className="font-bold lowercase">{params.auctionName}</span></p>
             </header>
             <section className="flex flex-col justify-center items-center mb-20">
-                {auctionUsers.map(user => (
+                {users.map(user => (
                     <div 
                         key={user._id} 
                         style={{ width: 400 }}
@@ -55,7 +48,7 @@ const UsersLobby = () => {
                 ))}
             </section>
 
-            <UsersLobbyActions auctionUsers={auctionUsers} auctionData={auctionData}/>
+            <UsersLobbyActions auctionData={auctionData}/>
         </div>
     )
 }

@@ -16,6 +16,7 @@ export const LIVE_AUCTION = gql`
             }
             users {
                 _id
+                ready
                 nickName
             }
             bidPlayer {
