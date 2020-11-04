@@ -11,7 +11,7 @@ import reducer from "./store/reducer";
 const store = configureStore({ reducer });
 
 const link = new WebSocketLink({
-  uri: `ws://localhost:4000/graphql`,
+  uri: `ws://api.ciaffardini.xyz/graphql`,
   options: {
     reconnect: true
   }
@@ -19,7 +19,7 @@ const link = new WebSocketLink({
 
 const client = new ApolloClient({
   link,
-  uri: 'http://localhost:4000',
+  uri: 'http://api.ciaffardini.xyz',
   cache: new InMemoryCache()
 });
 
