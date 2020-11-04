@@ -19,8 +19,6 @@ const UsersLobbyActions = ({ auctionData }) => {
     const user = auctionData.auction.users.find(user => user._id === userId)
     const usersNotReady = auctionData.auction.users.find(x => x.ready === false)
 
-    console.log(usersNotReady)
-
     const startAuction = () => {
         updateUserTurn({ variables: { auctionId: auctionData.auction._id, userId: auctionData.auction.users[0]._id } })
         updateAuctionStatus({ variables: { auctionId: auctionData.auction._id, newStatus: 'started' } })
