@@ -5,17 +5,6 @@ mutation auctionCreate($userId: ID!) {
 	createAuction(userId: $userId){
     _id
     name
-    status
-    owner{
-      _id
-      email
-      nickName
-    }
-    users{
-      _id
-      email
-      nickName
-    }
   }
 }
 `
@@ -39,6 +28,7 @@ export const UPDATE_AUCTION_USER_TURN = gql`
     }
   }
 `
+
 export const UPDATE_AUCTION_PLAYER = gql`
   mutation auctionPlayer($playerId: ID!, $auctionId: ID!){
     updateAuctionPlayer(playerId: $playerId, auctionId: $auctionId){

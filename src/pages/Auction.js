@@ -2,13 +2,14 @@ import React from 'react'
 import { useMutation, useSubscription, useQuery } from '@apollo/client'
 import { LIVE_AUCTION } from '../graphql/subscriptions/auction'
 import { UPDATE_AUCTION_USER_TURN, CLOSE_BID_OFFER } from '../graphql/mutations/auction'
-import { GET_USER } from '../graphql/queries/user'
+// import { GET_USER } from '../graphql/queries/user'
 import { Redirect, useParams } from 'react-router-dom'
 import Users from '../components/auction/Users'
 import Players from '../components/auction/Players'
 import jwt_decode from "jwt-decode";
 import Bids from '../components/auction/Bids'
 import BidActions from '../components/auction/BidActions'
+import MyPlayers from '../components/auction/MyPlayers'
 
 const Auction = () => {
     const params = useParams()
@@ -18,7 +19,6 @@ const Auction = () => {
 
     const [updateUserTurn] = useMutation(UPDATE_AUCTION_USER_TURN)
     const [closeBid] = useMutation(CLOSE_BID_OFFER)
-    const { data: userData, loading: userLoading } = useQuery(GET_USER, { variables: { userId } })
 
     const { 
         data: auctionData, 
@@ -26,13 +26,14 @@ const Auction = () => {
         loading: auctionLoading 
     } = useSubscription(LIVE_AUCTION, { variables: { auctionName: params.auctionName } })
 
-    if(auctionLoading || userLoading) return <p>Loading...</p>
+    if(auctionLoading) return <p>Loading...</p>
     if(auctionError) {
         console.log(auctionError)
         return <p>Error..</p>
     }
 
-    const userCredits = userData && userData.user.credits.find(item => item.auction.name === params.auctionName)
+    const user = auctionData.auction.users.find(usr => usr._id === userId)
+    const userCredits = user ? user.credits : 0
     const users = auctionData.auction.users
     const myTurn = userId === auctionData.auction.turnOf._id
     const highestBid = auctionData.auction.bids.length ? auctionData.auction.bids.reduce((x, y) => {
@@ -45,7 +46,8 @@ const Auction = () => {
 
         closeBid({ 
             variables: { auctionId, playerId }, 
-            refetchQueries: [{ query: GET_USER, variables: { userId } }] })
+            // refetchQueries: [{ query: GET_USER, variables: { userId } }] 
+        })
     }
 
     const nextTurn = () => {
@@ -62,8 +64,6 @@ const Auction = () => {
         updateUserTurn({ variables: { auctionId: auctionData.auction._id, userId: auctionData.auction.users[nextInline]._id } })
     }
 
-    console.log(auctionData)
-
     return (
         <>
         {!authToken ? <Redirect to={`/auth/login?prev=/auction/${params.auctionName}`}/> : (
@@ -76,7 +76,7 @@ const Auction = () => {
                         <Users users={users} auctionData={auctionData}/>
                     </div>
                 </section>
-                <section className="bg-white shadow-md mx-1 w-3/4 min-h-full rounded-md flex flex-col">
+                <section className="bg-white shadow-md mx-1 w-2/4 min-h-full rounded-md flex flex-col">
                     <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
                         <h2>Asta</h2>
                     </div>
@@ -84,7 +84,7 @@ const Auction = () => {
                         {userCredits &&
                             <div>
                                 Crediti:{" "}
-                                <span className="text-white bg-red-500 px-3 py-1 rounded-md">{userCredits.amount}</span>
+                                <span className="text-white bg-red-500 px-3 py-1 rounded-md">{userCredits}</span>
                             </div>
                         }
                         {highestBid &&
@@ -110,12 +110,18 @@ const Auction = () => {
                         </div>
                     </div>
                 </section>
+                <section className="bg-white shadow-md mx-1 w-1/4 rounded-md">
+                    <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
+                        <h2>La Mia Squadra</h2>
+                    </div>
+                    <MyPlayers players={user.players}/>
+                </section>
                 <Players auctionData={auctionData} myTurn={myTurn}/>     
             </div>
         )}
                 {/* to be removed */}
-                {/* <button onClick={() => nextTurn()}> nextTurn</button>
-                <button onClick={() => closeOffer()}>Close Bid</button>  */}
+                {/* <button onClick={() => nextTurn()}> nextTurn</button>  */}
+                {/* <button onClick={() => closeOffer()}>Close Bid</button>  */}
         </>
     )
 }

@@ -45,8 +45,8 @@ mutation associateUserToAuction($userId: ID!, $inviteCode: String!) {
 export const USER_READY = gql`
     mutation userReady($userId: ID!, $auctionName: String!) {
         changeUserReadiness(userId: $userId, auctionName: $auctionName){
-            nickName
-            ready
+            _id
+            name
         }
     }
 `

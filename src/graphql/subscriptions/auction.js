@@ -14,10 +14,20 @@ export const LIVE_AUCTION = gql`
                 _id
                 nickName
             }
-            users {
+            users{
                 _id
-                ready
                 nickName
+                ready
+                credits
+                players{
+                    player{
+                    _id
+                    name
+                    role
+                    team
+                }
+                amount_paid
+                }
             }
             bidPlayer {
                 _id

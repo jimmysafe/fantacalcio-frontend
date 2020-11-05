@@ -18,7 +18,7 @@ const _Timer = ({ auctionData, highestBid }) => {
         if(highestBid.from._id === userId){
             closeBid({ 
                 variables: { auctionId, playerId }, 
-                refetchQueries: [{ query: GET_USER, variables: { userId } }] 
+                // refetchQueries: [{ query: GET_USER, variables: { userId } }] 
             })
         }
     }

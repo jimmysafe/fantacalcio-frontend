@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client'
 import jwt_decode from "jwt-decode";
 import { CREATE_AUCTION } from '../../graphql/mutations/auction'
 import { useHistory } from 'react-router-dom';
-import { GET_USER } from '../../graphql/queries/user'
+// import { GET_USER } from '../../graphql/queries/user'
 
 
 const DashboardActions = () => {
@@ -18,7 +18,7 @@ const DashboardActions = () => {
             const { userId } = jwt_decode(localStorage.getItem('authToken'));
             const createdAuction = await auctionCreate({ 
                 variables: { userId },
-                refetchQueries: [{ query: GET_USER, variables: { userId } }]
+                // refetchQueries: [{ query: GET_USER, variables: { userId } }]
             })
 
             console.log(createdAuction)
