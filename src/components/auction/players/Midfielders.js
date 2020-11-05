@@ -1,8 +1,8 @@
 import React from 'react'
-import { GET_MIDFIELDERS, PLAYERS_ALLOCATION } from '../../../graphql/queries/players'
+import { GET_MIDFIELDERS } from '../../../graphql/queries/players'
 import { useQuery } from '@apollo/client'
 
-const Midfielders = ({ auctionData, myTurn, locked, setLocked, auctionPlayer }) => {
+const Midfielders = ({ auctionData, setLocked, auctionPlayer }) => {
     const { data, loading } = useQuery(GET_MIDFIELDERS)
 
     if(loading) return <p>Loading..</p>
@@ -19,10 +19,7 @@ const Midfielders = ({ auctionData, myTurn, locked, setLocked, auctionPlayer }) 
                             key={player._id} 
                             onClick={() => {
                                 setLocked(true)
-                                auctionPlayer({ 
-                                    variables: { playerId: player._id, auctionId: auctionData.auction._id },
-                                    refetchQueries: [{ query: PLAYERS_ALLOCATION, variables: { auctionId: auctionData.auction._id } }] 
-                                })
+                                auctionPlayer({ variables: { playerId: player._id, auctionId: auctionData.auction._id } })
                             }}
                             className="my-1 text-center py-3 border border-b-black uppercase font-semibold text-gray-900 cursor-pointer text-xs" 
                         >

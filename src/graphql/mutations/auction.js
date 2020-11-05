@@ -1,8 +1,12 @@
 import { gql } from '@apollo/client'
 
 export const CREATE_AUCTION = gql`
-mutation auctionCreate($userId: ID!) {
-	createAuction(userId: $userId){
+mutation auctionCreate($userId: ID!, $nickName: String!, $rules: AuctionRulesInput!) {
+	createAuction(input: {
+    userId: $userId,
+    nickName: $nickName,
+    rules: $rules
+  }){
     _id
     name
   }

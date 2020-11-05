@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Redirect } from 'react-router-dom'
 import DashboardActions from '../components/dashboard/DashboardActions'
 import DashboardAuctions from '../components/dashboard/DashboardAuctions'

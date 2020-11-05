@@ -1,7 +1,6 @@
 import React from 'react'
 import Timer from 'react-compound-timer'
 import { CLOSE_BID_OFFER } from '../../graphql/mutations/auction'
-import { GET_USER } from '../../graphql/queries/user'
 import { useMutation } from '@apollo/client'
 import jwt_decode from "jwt-decode";
 
@@ -16,10 +15,7 @@ const _Timer = ({ auctionData, highestBid }) => {
         const auctionId = auctionData.auction._id
         const playerId = player._id
         if(highestBid.from._id === userId){
-            closeBid({ 
-                variables: { auctionId, playerId }, 
-                // refetchQueries: [{ query: GET_USER, variables: { userId } }] 
-            })
+            closeBid({ variables: { auctionId, playerId } })
         }
     }
 

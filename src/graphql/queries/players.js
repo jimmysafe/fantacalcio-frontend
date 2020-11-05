@@ -11,17 +11,6 @@ export const GET_PLAYERS = gql`
     }
   }
 `
-export const PLAYERS_ALLOCATION = gql`
-query playersAllocation($auctionId: ID!) {
-  auctionUserPlayersAllocation(auctionId: $auctionId){
-    P
-    D
-    C
-    A
-  }
-}
-`
-
 export const GET_GOALKEEPERS = gql`
 query {
   goalkeepers{

@@ -1,8 +1,7 @@
 import React from 'react'
-import { useMutation, useSubscription, useQuery } from '@apollo/client'
+import { useMutation, useSubscription } from '@apollo/client'
 import { LIVE_AUCTION } from '../graphql/subscriptions/auction'
 import { UPDATE_AUCTION_USER_TURN, CLOSE_BID_OFFER } from '../graphql/mutations/auction'
-// import { GET_USER } from '../graphql/queries/user'
 import { Redirect, useParams } from 'react-router-dom'
 import Users from '../components/auction/Users'
 import Players from '../components/auction/Players'
@@ -43,11 +42,7 @@ const Auction = () => {
     const closeOffer = () => {
         const auctionId = auctionData.auction._id
         const playerId = auctionData.auction.bidPlayer._id
-
-        closeBid({ 
-            variables: { auctionId, playerId }, 
-            // refetchQueries: [{ query: GET_USER, variables: { userId } }] 
-        })
+        closeBid({ variables: { auctionId, playerId }, })
     }
 
     const nextTurn = () => {
@@ -63,6 +58,8 @@ const Auction = () => {
         
         updateUserTurn({ variables: { auctionId: auctionData.auction._id, userId: auctionData.auction.users[nextInline]._id } })
     }
+
+    console.log(auctionData)
 
     return (
         <>

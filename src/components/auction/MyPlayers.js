@@ -16,7 +16,7 @@ const MyPlayers = ({ players }) => {
     return (
         <div>
             {sections.map(section => (
-                <section className="uppercase my-1">
+                <section className="uppercase my-1" key={section.title}>
                     <p className="p-2 text-xs font-bold bg-gray-900 text-white text-center">{section.title} ( {section.players.length} )</p>
                     {section.players.map(x => (
                         <div key={x.player._id} className="p-2 flex justify-between items-center text-xs font-bold my-1 mx-1 border border-gray-300">

@@ -7,6 +7,12 @@ export const LIVE_AUCTION = gql`
             name
             status
             timer
+            rules{
+                goalkeepers,
+                defenders,
+                midfielders,
+                strikers
+            }
             owner {
                 _id
             }
