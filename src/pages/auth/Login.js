@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { LOGIN_USER } from '../../graphql/mutations/user'
 import { useMutation } from '@apollo/client'
 
 
 const Login = () => {
+    const history = useHistory()
     const location = useLocation()
     const [error, setError] = useState("")
     const [loginUser] = useMutation(LOGIN_USER)
@@ -12,7 +13,7 @@ const Login = () => {
     const emailRef = useRef("")
     const passwordRef = useRef("")
 
-    const loginRedirectUrl = location.state ? location.state.prevUrl : '/'
+    const prevUrl = location.search.split('?prev=')[1]
 
     const handleSubmit = async(e) => {
         e.preventDefault()
@@ -24,7 +25,11 @@ const Login = () => {
 
             window.localStorage.setItem('authToken', loginData.data.loginUser.token)
 
-            window.location.replace(loginRedirectUrl)
+            if(location.search){
+                history.push(prevUrl)
+            } else {
+                history.push('/')
+            }
 
         } catch(err) {
             console.log(err)

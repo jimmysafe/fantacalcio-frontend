@@ -13,7 +13,6 @@ const DashboardActions = () => {
     const [showModal, setShowModal] = useState(false)
     const [auctionCreate, { loading }] = useMutation(CREATE_AUCTION);
 
-
     const createAuction = async() => {
         try {
             const { userId } = jwt_decode(localStorage.getItem('authToken'));

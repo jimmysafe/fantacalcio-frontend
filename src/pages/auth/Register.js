@@ -27,6 +27,7 @@ const Register = () => {
                 } })
 
                 window.localStorage.setItem('authToken', loginData.data.loginUser.token)
+
                 history.push('/')
             }
 
