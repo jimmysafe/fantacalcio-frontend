@@ -78,12 +78,10 @@ const Auction = () => {
                         <h2>Asta</h2>
                     </div>
                     <div className="p-5 flex justify-between items-center shadow-sm text-sm uppercase font-semibold">
-                        {userCredits &&
-                            <div>
-                                Crediti:{" "}
-                                <span className="text-white bg-red-500 px-3 py-1 rounded-md">{userCredits}</span>
-                            </div>
-                        }
+                        <div>
+                            Crediti:{" "}
+                            <span className="text-white bg-red-500 px-3 py-1 rounded-md">{userCredits}</span>
+                        </div>
                         {highestBid &&
                         <div>
                                 Miglior Offerta:{" "}

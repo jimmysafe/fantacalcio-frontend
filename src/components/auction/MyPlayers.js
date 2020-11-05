@@ -12,7 +12,7 @@ const MyPlayers = ({ players }) => {
         { title: 'Centrocampisti', players: midfielders },
         { title: 'Attaccanti', players: strikers },
     ]
-
+    
     return (
         <div>
             {sections.map(section => (

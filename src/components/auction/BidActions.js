@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import jwt_decode from "jwt-decode";
 import { ADD_BID } from '../../graphql/mutations/auction'
 import { useMutation } from '@apollo/client'
+import Slider from "react-input-slider";
+
 
 const BidActions = ({ auctionData, highestBid }) => {
 
@@ -33,7 +35,9 @@ const BidActions = ({ auctionData, highestBid }) => {
     }
 
     const canBid = () => {
-        if(bidPlayer){
+        if(!user.credits){
+            return renderLock()
+        } else if (bidPlayer && user.credits) {
             switch(bidPlayer.role){
                 case 'P': 
                     return !canBidGoalkeepers ? renderLock('Portieri') : null
@@ -64,6 +68,7 @@ const BidActions = ({ auctionData, highestBid }) => {
     } 
 
     return (
+        <>
         <div className="flex justify-between relative p-5">
             { canBid() }
             <BidButton amount={bid(1)} userId={userId} auctionId={auctionId}/>
@@ -72,6 +77,8 @@ const BidActions = ({ auctionData, highestBid }) => {
             <BidButton amount={bid(20)} userId={userId} auctionId={auctionId}/>
             <BidButton amount={bid(30)} userId={userId} auctionId={auctionId}/>
         </div>
+        <BidSlider userCredits={user.credits} userId={userId} auctionId={auctionId}/>
+        </>
     )
 }
 
@@ -95,6 +102,63 @@ const BidButton = ({ amount, auctionId, userId }) => {
         >
             {amount}
         </div>
+    )
+}
+
+const BidSlider = ({ userCredits, auctionId, userId }) => {
+    const [addBid] = useMutation(ADD_BID)
+    
+    const [sliderPos, setSliderPos] = useState(0)
+    const [confirmButton, showConfirmButton] = useState(false)
+
+    const addBidAction = () => {
+        addBid({ variables: {
+            userId,
+            auctionId,
+            bidAmount: sliderPos
+        } })
+        setSliderPos(0)
+    }
+
+    const sliderStyles = {
+        track: {
+            backgroundColor: '#1a202c',
+            height: 20,
+            width: '100%'
+        },
+        active: {
+            backgroundColor: '#1a202c'
+        },
+        thumb: {
+            backgroundColor: 'white',
+            width: 35,
+            height: 35
+        },
+        disabled: {
+            opacity: 0.5
+        }
+    }
+
+    return (
+        <div className="flex justify-between items-center">
+            <div className="px-3 w-full">
+                <Slider
+                    disabled={!userCredits}
+                    styles={sliderStyles}
+                    axis="x"
+                    x={sliderPos}
+                    xmin={0}
+                    xmax={userCredits}
+                    onChange={({ x }) => setSliderPos(x)}
+                    onDragStart={() => showConfirmButton(false)}
+                    onDragEnd={() => showConfirmButton(true)}
+                />
+            </div>
+
+            <div className="flex justify-center items-center text-center mb-3 font-bold text-lg cursor-pointer" onClick={() => addBidAction()}>
+                <p className=" px-5 py-2 rounded-md text-red-500 bg-gray-900">{sliderPos}</p>
+            </div>
+      </div>
     )
 }
 
