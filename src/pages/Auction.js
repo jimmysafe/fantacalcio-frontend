@@ -59,7 +59,7 @@ const Auction = () => {
         updateUserTurn({ variables: { auctionId: auctionData.auction._id, userId: auctionData.auction.users[nextInline]._id } })
     }
 
-    console.log(auctionData)
+    // console.log(auctionData)
 
     return (
         <>
