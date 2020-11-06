@@ -1,9 +1,46 @@
 import React, { useEffect, useState } from 'react'
 import Timer from './Timer'
+import { useTransition, animated } from "react-spring";
+
+const randomPx = () => {
+    let randomN = Math.floor(Math.random() * 100);
+    if (randomN % 2 === 0) {
+      return randomN;
+    } else {
+      return -randomN;
+    }
+};
 
 const Bids = ({ auctionData, highestBid }) => {
     const bids = auctionData.auction.bids
     const [showTimer, setShowTimer] = useState(false)
+
+    const transitions = useTransition(bids, (_, i) => i, {
+        from: {
+          transform: `translate(0px, 0px)`,
+          opacity: 1,
+          height: "auto",
+          width: "auto",
+          position: 'relative'
+        },
+        enter: {
+          transform: `translate(${randomPx()}px, -200px)`,
+          opacity: 0,
+          height: 0,
+          width: 0,
+          position: "absolute"
+        },
+        leave: {
+          transform: `translate(${randomPx()}px, 0px)`,
+          opacity: 0,
+          height: 0,
+          width: 0,
+          position: "absolute"  
+        },
+        config: {
+          duration: 500
+        }
+      });
 
     const activeTimer = auctionData.auction.timer
 
@@ -26,37 +63,34 @@ const Bids = ({ auctionData, highestBid }) => {
         }
     }, [auctionData, activeTimer])
     
-    const orderedBids = bids.sort((a, b) => b.bid-a.bid).slice(0, 5);
-
-    const wrapperClassNames = i => {
-        switch(i){
-            case 0:
-                return 'w-full';
-            case 1:
-                return 'w-10/12';
-            case 2: 
-                return 'w-8/12';
-            case 3: 
-                return 'w-6/12';
-            case 4: 
-                return 'w-4/12';
-            default:
-                return 'w-2/12';
-        }
-    }
+    // const orderedBids = transitions.sort((a, b) => b.bid-a.bid).slice(0, 5);
 
     return (
-        <div className="flex-1 flex p-5 flex-col h-full">
-            <div className="flex-1">
-                {orderedBids.map((bid, i) => (
-                    <div key={i} className="flex justify-end">
-                        <div className={`my-2 py-2 bg-gray-900 text-white rounded-l-full ${wrapperClassNames(i)}`}>
-                            <span className="bg-red-500 text-white p-4 rounded-md shadow-md text-lg font-bold">{bid.bid}</span>
-                            {" "}   
-                            <span className="text-xs uppercase font-bold">{bid.from.nickName}</span>
-                        </div>
-                    </div>
-                ))}
+        <div className="flex p-5 flex-col h-full">
+            <div className="flex justify-center items-center p-3">
+                <div 
+                    className="bg-teal-400 text-white font-bold flex flex-col justify-center items-center" 
+                    style={{ width: 400, height: 200 }}
+                >
+                    <span className="text-sm uppercase">{highestBid.from.nickName}</span>
+                    <span style={{ fontSize: '2.5rem' }}>
+                        {highestBid.bid}
+                    </span>
+                </div>
+            </div>
+            <div className="flex-1 flex justify-center items-end relative">
+                {transitions.map(({ item, props, key }) => {
+                    return (
+                        <animated.div style={props} key={key}>
+                            <div 
+                                className="bg-red-500 text-white flex justify-center items-center font-bold text-xl rounded-full" 
+                                style={{ width: 50, height: 50 }}
+                            >
+                                {item.bid}
+                            </div>
+                        </animated.div>
+                    )
+                })}
             </div>
             { showTimer && <Timer auctionData={auctionData} highestBid={highestBid}/> }
         </div>

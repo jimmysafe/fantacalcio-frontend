@@ -102,9 +102,11 @@ const Auction = () => {
                                 }
                             </div>
                             <div className="flex-1 flex flex-col">
-                                {auctionData.auction.bids.length > 0 &&
-                                    <Bids auctionData={auctionData} highestBid={highestBid}/>
-                                }
+                                <div className="flex-1">
+                                    {auctionData.auction.bids.length > 0 &&
+                                        <Bids auctionData={auctionData} highestBid={highestBid}/>
+                                    }
+                                </div>
                                 <div className="p-5">
                                     <BidActions auctionData={auctionData} highestBid={highestBid}/>
                                 </div>

@@ -69,7 +69,7 @@ const BidActions = ({ auctionData, highestBid }) => {
 
     return (
         <>
-        <div className="flex justify-between relative p-5">
+        <div className="flex justify-center relative p-5">
             { canBid() }
             <BidButton amount={bid(1)} userId={userId} auctionId={auctionId}/>
             <BidButton amount={bid(5)} userId={userId} auctionId={auctionId}/>
@@ -97,8 +97,8 @@ const BidButton = ({ amount, auctionId, userId }) => {
     return (
         <div 
             onClick={() => addBidAction()}
-            className="bg-gray-900 text-red-500 rounded-md text-center cursor-pointer font-bold text-lg flex justify-center items-center"
-            style={{ minWidth: 70, height: 70 }}
+            className="bg-red-500 mx-2 text-white rounded-full text-center cursor-pointer font-bold text-lg flex justify-center items-center"
+            style={{ minWidth: 50, height: 50 }}
         >
             {amount}
         </div>
@@ -122,17 +122,17 @@ const BidSlider = ({ userCredits, auctionId, userId }) => {
 
     const sliderStyles = {
         track: {
-            backgroundColor: '#1a202c',
-            height: 20,
+            backgroundColor: '#f56565',
+            height: 16,
             width: '100%'
         },
         active: {
-            backgroundColor: '#1a202c'
+            backgroundColor: '#f56565'
         },
         thumb: {
             backgroundColor: 'white',
-            width: 35,
-            height: 35
+            width: 25,
+            height: 25
         },
         disabled: {
             opacity: 0.5
@@ -141,7 +141,7 @@ const BidSlider = ({ userCredits, auctionId, userId }) => {
 
     return (
         <div className="flex justify-between items-center">
-            <div className="px-3 w-full">
+            <div className="px-3 w-full mt-2">
                 <Slider
                     disabled={!userCredits}
                     styles={sliderStyles}
@@ -155,8 +155,12 @@ const BidSlider = ({ userCredits, auctionId, userId }) => {
                 />
             </div>
 
-            <div className="flex justify-center items-center text-center mb-3 font-bold text-lg cursor-pointer" onClick={() => addBidAction()}>
-                <p className=" px-5 py-2 rounded-md text-red-500 bg-gray-900">{sliderPos}</p>
+            <div 
+                onClick={() => addBidAction()}
+                className="bg-red-500 mx-2 text-white rounded-full text-center cursor-pointer font-bold text-lg flex justify-center items-center"
+                style={{ minWidth: 50, height: 50 }}
+            >
+                {sliderPos}
             </div>
       </div>
     )
