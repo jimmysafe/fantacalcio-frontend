@@ -9,6 +9,7 @@ import jwt_decode from "jwt-decode";
 import Bids from '../components/auction/Bids'
 import BidActions from '../components/auction/BidActions'
 import MyPlayers from '../components/auction/MyPlayers'
+import AuctionComplete from './AuctionComplete'
 
 const Auction = () => {
     const params = useParams()
@@ -63,57 +64,61 @@ const Auction = () => {
 
     return (
         <>
-        {!authToken ? <Redirect to={`/auth/login?prev=/auction/${params.auctionName}`}/> : (
-            <div className="container mx-auto py-5 min-h-screen flex justify-between">
-                <section className="bg-white shadow-md mx-1 w-1/4 rounded-md">
-                    <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
-                        <h2>Partecipanti</h2>
-                    </div>
-                    <div className="p-5">
-                        <Users users={users} auctionData={auctionData}/>
-                    </div>
-                </section>
-                <section className="bg-white shadow-md mx-1 w-2/4 min-h-full rounded-md flex flex-col">
-                    <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
-                        <h2>Asta</h2>
-                    </div>
-                    <div className="p-5 flex justify-between items-center shadow-sm text-sm uppercase font-semibold">
-                        <div>
-                            Crediti:{" "}
-                            <span className="text-white bg-red-500 px-3 py-1 rounded-md">{userCredits}</span>
-                        </div>
-                        {highestBid &&
-                        <div>
-                                Miglior Offerta:{" "}
-                                <span className="text-white bg-teal-400 px-3 py-1 rounded-md">{highestBid.from.nickName}: {highestBid.bid}</span>
-                        </div>
-                        }
-                    </div>
-                    <div className="p-5 shadow-sm rounded-md m-5 bg-red-500 text-white text-center uppercase text-sm font-semibold">
-                        {auctionData.auction.bidPlayer ?
-                            <h3 className="font-bold">{auctionData.auction.bidPlayer.name}</h3>
-                        :
-                            <h3>{auctionData.auction.turnOf.nickName} sta scegliendo un giocatore..</h3>
-                        }
-                    </div>
-                    <div className="flex-1 flex flex-col">
-                        {auctionData.auction.bids.length > 0 &&
-                            <Bids auctionData={auctionData} highestBid={highestBid}/>
-                        }
-                        <div className="p-5">
-                            <BidActions auctionData={auctionData} highestBid={highestBid}/>
-                        </div>
-                    </div>
-                </section>
-                <section className="bg-white shadow-md mx-1 w-1/4 rounded-md">
-                    <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
-                        <h2>La Mia Squadra</h2>
-                    </div>
-                    <MyPlayers players={user.players}/>
-                </section>
-                <Players auctionData={auctionData} myTurn={myTurn}/>     
-            </div>
-        )}
+        {!authToken 
+            ? <Redirect to={`/auth/login?prev=/auction/${params.auctionName}`}/> 
+            :  auctionData.auction.status === 'complete' 
+                ?   <AuctionComplete auctionData={auctionData}/>
+                :   
+                    <div className="container mx-auto py-5 min-h-screen flex justify-between">
+                        <section className="bg-white shadow-md mx-1 w-1/4 rounded-md">
+                            <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
+                                <h2>Partecipanti</h2>
+                            </div>
+                            <div className="p-5">
+                                <Users users={users} auctionData={auctionData}/>
+                            </div>
+                        </section>
+                        <section className="bg-white shadow-md mx-1 w-2/4 min-h-full rounded-md flex flex-col">
+                            <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
+                                <h2>Asta</h2>
+                            </div>
+                            <div className="p-5 flex justify-between items-center shadow-sm text-sm uppercase font-semibold">
+                                <div>
+                                    Crediti:{" "}
+                                    <span className="text-white bg-red-500 px-3 py-1 rounded-md">{userCredits}</span>
+                                </div>
+                                {highestBid &&
+                                <div>
+                                        Miglior Offerta:{" "}
+                                        <span className="text-white bg-teal-400 px-3 py-1 rounded-md">{highestBid.from.nickName}: {highestBid.bid}</span>
+                                </div>
+                                }
+                            </div>
+                            <div className="p-5 shadow-sm rounded-md m-5 bg-red-500 text-white text-center uppercase text-sm font-semibold">
+                                {auctionData.auction.bidPlayer ?
+                                    <h3 className="font-bold">{auctionData.auction.bidPlayer.name}</h3>
+                                :
+                                    <h3>{auctionData.auction.turnOf.nickName} sta scegliendo un giocatore..</h3>
+                                }
+                            </div>
+                            <div className="flex-1 flex flex-col">
+                                {auctionData.auction.bids.length > 0 &&
+                                    <Bids auctionData={auctionData} highestBid={highestBid}/>
+                                }
+                                <div className="p-5">
+                                    <BidActions auctionData={auctionData} highestBid={highestBid}/>
+                                </div>
+                            </div>
+                        </section>
+                        <section className="bg-white shadow-md mx-1 w-1/4 rounded-md">
+                            <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
+                                <h2>La Mia Squadra</h2>
+                            </div>
+                            <MyPlayers players={user.players}/>
+                        </section>
+                        <Players auctionData={auctionData} myTurn={myTurn}/>     
+                    </div>           
+        }
                 {/* to be removed */}
                 {/* <button onClick={() => nextTurn()}> nextTurn</button>  */}
                 {/* <button onClick={() => closeOffer()}>Close Bid</button>  */}
