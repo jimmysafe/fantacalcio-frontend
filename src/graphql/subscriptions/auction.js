@@ -6,6 +6,7 @@ export const LIVE_AUCTION = gql`
             _id
             name
             status
+            nickName
             timer
             rules{
                 goalkeepers,

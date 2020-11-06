@@ -6,6 +6,7 @@ export const GET_USER = gql`
             auctions {
               _id
               name
+              nickName
               status
             }
             credits {

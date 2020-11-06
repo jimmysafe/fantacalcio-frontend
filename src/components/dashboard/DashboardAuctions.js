@@ -12,6 +12,19 @@ const DashboardAuctions = () => {
     if(loading) return <p>Loading..</p>
 
     const auctions = userData && userData.user && userData.user.auctions
+
+    const translateAuctionStatus = (status) => {
+        switch(status){
+            case 'pending':
+                return 'In Attesa'
+            case 'started':
+                return 'In Corso'
+            case 'complete':
+                return 'Terminata'
+            default:
+                return 'In Attesa'
+        }
+    }
     
     return (
         <div className="w-full flex px-5 justify-around flex-wrap" style={{ maxWidth: 400 }}>
@@ -24,11 +37,12 @@ const DashboardAuctions = () => {
                         history.push(url)
                     }}
                 >
+                    <p className="mb-3 text-xs font-semibold uppercase">Asta: <span className="font-bold lowercase text-sm">{auction.nickName}</span></p>                    
                     <p className="mb-3 text-xs font-semibold uppercase">Codice Invito: <span className="font-bold lowercase text-sm">{auction.name}</span></p>
                     <p className="text-xs font-semibold uppercase">Stato Asta:{" "}
                         <span 
-                            className={`uppercase font-bold text-xs text-white px-5 py-1 rounded-md ${auction.status === 'pending' ? 'bg-red-500' : 'bg-teal-400'}`}
-                        >{auction.status}</span>
+                            className={`uppercase font-bold text-xs text-white px-5 py-1 rounded-md ${auction.status === 'pending' ? 'bg-red-500' : auction.status === 'complete' ? 'bg-green-400' : 'bg-teal-400'}`}
+                        >{translateAuctionStatus(auction.status)}</span>
                     </p>
                 </div>
             ))}
