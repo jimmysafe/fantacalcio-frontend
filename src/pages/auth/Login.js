@@ -39,11 +39,11 @@ const Login = () => {
 
     return (
         <div className="container mx-auto min-h-screen flex justify-center items-center flex-col">
-            <form onSubmit={handleSubmit} className="flex flex-col bg-white shadow-md p-5 rounded-md" style={{ minWidth: 400 }}>
-                <h1 className="mb-3 text-center uppercase font-bold text-gray-800">Accedi</h1>
-                <input type="email" placeholder="Email" ref={emailRef} className="p-3 w-full mb-3 border border-gray-400 rounded-md"/>
-                <input type="password" placeholder="Password" ref={passwordRef} className="p-3 w-full mb-3 border border-gray-400 rounded-md"/>
-                <button className="bg-darkBlue text-white p-3 uppercase font-bold text-xs rounded-md mt-3">Accedi</button>
+            <form onSubmit={handleSubmit} className="flex flex-col bg-white shadow-md p-5 rounded" style={{ minWidth: 400 }}>
+                <h1 className="mb-3 text-center uppercase font-bold text-darkBlue">Accedi</h1>
+                <input type="email" placeholder="Email" ref={emailRef} className="p-3 w-full mb-3 border border-gray-400 rounded-sm"/>
+                <input type="password" placeholder="Password" ref={passwordRef} className="p-3 w-full mb-3 border border-gray-400 rounded-sm"/>
+                <button className="bg-darkBlue text-white p-3 uppercase font-bold text-xs rounded mt-3">Accedi</button>
             </form>
             {error &&
                 <p className="my-3">{error}</p>
