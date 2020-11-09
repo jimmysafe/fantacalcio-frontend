@@ -68,17 +68,16 @@ const BidActions = ({ auctionData, highestBid }) => {
     } 
 
     return (
-        <>
-        <div className="flex justify-center relative p-5">
+        <div className="bg-darkBlue">
+        <div className="flex justify-between relative px-5 py-3">
             { canBid() }
             <BidButton amount={bid(1)} userId={userId} auctionId={auctionId}/>
             <BidButton amount={bid(5)} userId={userId} auctionId={auctionId}/>
             <BidButton amount={bid(10)} userId={userId} auctionId={auctionId}/>
             <BidButton amount={bid(20)} userId={userId} auctionId={auctionId}/>
-            <BidButton amount={bid(30)} userId={userId} auctionId={auctionId}/>
         </div>
-        <BidSlider userCredits={user.credits} userId={userId} auctionId={auctionId}/>
-        </>
+            <BidSlider userCredits={user.credits} userId={userId} auctionId={auctionId}/>
+        </div>
     )
 }
 
@@ -97,8 +96,8 @@ const BidButton = ({ amount, auctionId, userId }) => {
     return (
         <div 
             onClick={() => addBidAction()}
-            className="bg-red-500 mx-2 text-white rounded-full text-center cursor-pointer font-bold text-lg flex justify-center items-center"
-            style={{ minWidth: 50, height: 50 }}
+            className="bg-gold rounded-sm py-2 px-3 text-sm font-semibold text-darkGrey flex justify-center items-center"
+            style={{ minWidth: 70 }}
         >
             {amount}
         </div>
@@ -122,17 +121,17 @@ const BidSlider = ({ userCredits, auctionId, userId }) => {
 
     const sliderStyles = {
         track: {
-            backgroundColor: '#f56565',
-            height: 16,
+            backgroundColor: 'white',
+            height: 10,
             width: '100%'
         },
         active: {
-            backgroundColor: '#f56565'
+            backgroundColor: 'white'
         },
         thumb: {
             backgroundColor: 'white',
-            width: 25,
-            height: 25
+            width: 20,
+            height: 20
         },
         disabled: {
             opacity: 0.5
@@ -140,8 +139,7 @@ const BidSlider = ({ userCredits, auctionId, userId }) => {
     }
 
     return (
-        <div className="flex justify-between items-center">
-            <div className="px-3 w-full mt-2">
+        <div className="flex justify-between items-center px-8 py-5">
                 <Slider
                     disabled={!userCredits}
                     styles={sliderStyles}
@@ -153,15 +151,14 @@ const BidSlider = ({ userCredits, auctionId, userId }) => {
                     onDragStart={() => showConfirmButton(false)}
                     onDragEnd={() => showConfirmButton(true)}
                 />
-            </div>
 
-            <div 
+            {/* <div 
                 onClick={() => addBidAction()}
                 className="bg-red-500 mx-2 text-white rounded-full text-center cursor-pointer font-bold text-lg flex justify-center items-center"
                 style={{ minWidth: 50, height: 50 }}
             >
                 {sliderPos}
-            </div>
+            </div> */}
       </div>
     )
 }

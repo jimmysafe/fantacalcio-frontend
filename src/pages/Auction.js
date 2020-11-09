@@ -89,9 +89,7 @@ const Auction = () => {
                                         <Bids auctionData={auctionData} highestBid={highestBid}/>
                                     }
                                 </div>
-                                <div className="p-5">
-                                    <BidActions auctionData={auctionData} highestBid={highestBid}/>
-                                </div>
+                                <BidActions auctionData={auctionData} highestBid={highestBid}/>
                             </div>
                         </section>
                         
