@@ -25,11 +25,12 @@ const UsersLobbyActions = ({ auctionData }) => {
     }
 
     return (
-        <section className="fixed bottom-0 left-0 bg-white shadow-inner w-full">
+        <section className="fixed bottom-0 left-0 bg-darkBlue w-full">
             <div className="container mx-auto flex justify-center items-center h-20">
                     <button
                         onClick={() => userReady({ variables: { userId, auctionName: params.auctionName } })}
-                        className="bg-teal-400 text-white p-3 uppercase font-bold text-xs rounded-md mt-3"
+                        className="bg-gold text-darkBlue p-3 uppercase font-bold text-xs rounded-md mt-3 rounded"
+                        style={{ minWidth: 112 }}
                     >
                         { user.ready ? 'Non Pronto' : 'Pronto' }
                     </button>
@@ -37,9 +38,10 @@ const UsersLobbyActions = ({ auctionData }) => {
                         <button
                             disabled={usersNotReady}
                             onClick={() => startAuction()}
-                            className={` text-white p-3 uppercase font-bold text-xs rounded-md mt-3 ml-5 ${usersNotReady ? 'cursor-not-allowed bg-gray-500' : 'cursor-pointer bg-teal-400'}`}
+                            className={` text-white p-3 rounded uppercase font-bold text-xs mt-3 ml-5 ${usersNotReady ? 'cursor-not-allowed bg-gray-500' : 'cursor-pointer bg-lightBlue'}`}
+                            style={{ minWidth: 112 }}
                         >
-                            Inizia Asta
+                            Inizia
                         </button>
                     }
             </div>

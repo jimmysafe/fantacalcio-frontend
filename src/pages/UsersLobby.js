@@ -3,6 +3,8 @@ import { useParams, useHistory, Redirect } from 'react-router-dom'
 import { useSubscription } from '@apollo/client'
 import { LIVE_AUCTION } from '../graphql/subscriptions/auction'
 import UsersLobbyActions from '../components/UsersLobbyActions'
+import { FiCheck as Ready, FiX as NotReady } from "react-icons/fi";
+
 
 const UsersLobby = () => {
     const params = useParams()
@@ -34,20 +36,21 @@ const UsersLobby = () => {
     return (
         <>
         {!authToken ? <Redirect to={`/auth/login?prev=/users/${params.auctionName}`}/> : (
-            <div className="container mx-auto">
-                <h1 className="mb-3 p-5 text-center uppercase text-gray-800 font-bold">Lobby</h1>
-                <header className="mb-3 p-5 text-center uppercase text-gray-800">
-                    <p>Codice Invito: <span className="font-bold lowercase">{params.auctionName}</span></p>
+            <div className="container mx-auto md:p-0 px-5" style={{ maxWidth: 400 }}>
+                <h1 className="mb-3 p-5 text-center uppercase text-darkGrey text-sm font-bold mt-8">Lobby</h1>
+                <header className="my-6">
+                    <p className="text-lightGrey uppercase font-semibold text-xs ">Codice Invito: 
+                        <span className="font-bold lowercase inline-block text-green-500 text-sm ml-5">{params.auctionName}</span>
+                        </p>
                 </header>
                 <section className="flex flex-col justify-center items-center mb-20">
                     {users.map(user => (
                         <div 
                             key={user._id} 
-                            style={{ width: 400 }}
-                            className={`px-10 py-3 shadow-md my-3 rounded flex justify-between items-center ${user.ready ? 'bg-teal-400' : 'bg-red-500'}`}
+                            className="px-10 py-5 shadow-lg my-3 rounded flex justify-between items-center w-full"
                         >
-                            <p className="text-white flex-1 uppercase font-bold mr-5 text-xs">{user.nickName}</p>
-                            <div className="font-bold uppercase text-white text-xs">{user.ready ? 'pronto' : 'non pronto'}</div>
+                            <p className="text-darkGrey flex-1 uppercase font-bold mr-5 text-xs">{user.nickName}</p>
+                            {user.ready ? <Ready color="green" size="1.5rem"/> : <NotReady color="red" size="1.5rem"/> }
                         </div>
                     ))}
                 </section>
