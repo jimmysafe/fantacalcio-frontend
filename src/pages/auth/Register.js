@@ -44,7 +44,7 @@ const Register = () => {
                 <input type="text" placeholder="Nickname" ref={nickNameRef} className="p-3 w-full mb-3 border border-gray-400 rounded-md"/>
                 <input type="email" placeholder="Email" ref={emailRef} className="p-3 w-full mb-3 border border-gray-400 rounded-md"/>
                 <input type="password" placeholder="Password" ref={passwordRef} className="p-3 w-full mb-3 border border-gray-400 rounded-md"/>
-                <button className="bg-teal-400 text-white p-3 uppercase font-bold text-xs rounded-md mt-3">Registrati</button>
+                <button className="bg-darkBlue text-white p-3 uppercase font-bold text-xs rounded-md mt-3">Registrati</button>
             </form>
             {error &&
                <p className="my-3">{error}</p>

@@ -4,8 +4,12 @@
 
 @import "tailwindcss/utilities";
 
+* {
+    font-family: 'Montserrat', 'sans-serif';
+}
+
 body {
-    background-color: #80808012;
+    background-color: #F9F9F9;
 }
 
 .playersModal::-webkit-scrollbar {

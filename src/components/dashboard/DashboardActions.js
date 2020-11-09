@@ -11,16 +11,16 @@ const DashboardActions = () => {
         <>
         {showJoinModal && <JoinAuction close={() => setShowJoinModal(false)}/>}
         {showCreateAuctionModal && <CreateAuction close={() => setShowCreateAuctionModal(false)} /> }
-        <div className="flex flex-col py-5">
+        <div className="flex flex-col py-5 text-xs">
              <button 
                 onClick={() => setShowCreateAuctionModal(true)}
-                className="px-5 py-3 rounded uppercase font-bold bg-red-500 text-white mb-5"
+                className="px-5 py-3 rounded uppercase font-bold bg-gold text-white mb-5 md:h-64 h-20"
             >
                 Crea Asta
             </button>
             <button 
                 onClick={() => setShowJoinModal(true)}
-                className="px-5 py-3 rounded uppercase font-bold bg-teal-500 text-white mb-5"
+                className="px-5 py-3 rounded uppercase font-bold bg-lightBlue text-white mb-5 md:h-64 h-20"
             >
                 Entra in Asta con codice invito
             </button>

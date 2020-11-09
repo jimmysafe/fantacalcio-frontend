@@ -26,22 +26,28 @@ const DashboardAuctions = () => {
         }
     }
     
-    return (
-        <div className="w-full flex px-5 justify-around flex-wrap" style={{ maxWidth: 400 }}>
+    return ( 
+        <div className="w-full flex md:px-5 justify-around flex-wrap mx-auto" style={{ maxWidth: 450 }}>
             {auctions && auctions.map(auction => (
                 <div 
                     key={auction._id} 
-                    className="cursor-pointer my-5 rounded-md shadow-md bg-white p-6 w-full" 
+                    className="cursor-pointer my-2 rounded shadow-lg bg-white p-8 w-full" 
                     onClick={() => {
                         const url = auction.status === 'pending' ? `/users/${auction.name}` : `/auction/${auction.name}`
                         history.push(url)
                     }}
                 >
-                    <p className="mb-3 text-xs font-semibold uppercase">Asta: <span className="font-bold lowercase text-sm">{auction.nickName}</span></p>                    
-                    <p className="mb-3 text-xs font-semibold uppercase">Codice Invito: <span className="font-bold lowercase text-sm">{auction.name}</span></p>
-                    <p className="text-xs font-semibold uppercase">Stato Asta:{" "}
+                    <p className="mb-4 text-xs text-lightGrey tracking-wide font-semibold uppercase">Asta 
+                        <span className="font-bold lowercase text-sm text-darkBlue inline-block ml-4">{auction.nickName}</span>
+                    </p>                    
+                    <p className="mb-4 text-xs text-lightGrey tracking-wide font-semibold uppercase">Codice Invito 
+                        <span className="font-bold lowercase text-sm text-darkBlue inline-block ml-4">{auction.name}</span>
+                    </p>
+                    <p className="text-xs text-lightGrey tracking-wide font-semibold uppercase">Stato Asta
                         <span 
-                            className={`uppercase font-bold text-xs text-white px-5 py-1 rounded-md ${auction.status === 'pending' ? 'bg-red-500' : auction.status === 'complete' ? 'bg-green-400' : 'bg-teal-400'}`}
+                            className={`uppercase font-bold text-xs text-white px-4 py-2 rounded inline-block ml-4
+                                ${auction.status === 'pending' ? 'bg-lightBlue' : auction.status === 'complete' ? 'bg-green-500' : 'bg-gold'}`
+                            }
                         >{translateAuctionStatus(auction.status)}</span>
                     </p>
                 </div>

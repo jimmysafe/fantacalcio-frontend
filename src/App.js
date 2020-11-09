@@ -6,12 +6,14 @@ import Auction from './pages/Auction';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
 import Dashboard from './pages/Dashboard';
+import Nav from './components/Nav';
 
 
 
 const App = () => {
   return (
     <Router>
+      <Nav />
       <Switch>
         <Route exact path="/">
             <Dashboard /> 
