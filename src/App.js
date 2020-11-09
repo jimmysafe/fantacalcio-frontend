@@ -13,24 +13,26 @@ import Nav from './components/Nav';
 const App = () => {
   return (
     <Router>
-      <Nav />
-      <Switch>
-        <Route exact path="/">
-            <Dashboard /> 
-        </Route>
-        <Route path="/users/:auctionName">
-            <UsersLobby /> 
-        </Route>
-        <Route path="/auction/:auctionName">
-            <Auction /> 
-        </Route>
-        <Route path="/auth/register">
-          <Register />
-        </Route>
-        <Route path="/auth/login">
-          <Login />
-        </Route>
-      </Switch>
+      <main className="h-screen flex flex-col md:pb-3 p-0">
+        <Nav />
+        <Switch>
+          <Route exact path="/">
+              <Dashboard /> 
+          </Route>
+          <Route path="/users/:auctionName">
+              <UsersLobby /> 
+          </Route>
+          <Route path="/auction/:auctionName">
+              <Auction /> 
+          </Route>
+          <Route path="/auth/register">
+            <Register />
+          </Route>
+          <Route path="/auth/login">
+            <Login />
+          </Route>
+        </Switch>
+      </main>
     </Router>
   );
 }

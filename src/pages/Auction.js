@@ -1,7 +1,6 @@
-import React from 'react'
-import { useMutation, useSubscription } from '@apollo/client'
+import React, { useState } from 'react'
+import { useSubscription } from '@apollo/client'
 import { LIVE_AUCTION } from '../graphql/subscriptions/auction'
-import { UPDATE_AUCTION_USER_TURN, CLOSE_BID_OFFER } from '../graphql/mutations/auction'
 import { Redirect, useParams } from 'react-router-dom'
 import Users from '../components/auction/Users'
 import Players from '../components/auction/Players'
@@ -10,6 +9,10 @@ import Bids from '../components/auction/Bids'
 import BidActions from '../components/auction/BidActions'
 import MyPlayers from '../components/auction/MyPlayers'
 import AuctionComplete from './AuctionComplete'
+import AuctionHeader from '../components/auction/AuctionHeader'
+import AuctionNotification from '../components/auction/AuctionNotification'
+
+const tabItems = [ 'Partecipanti', 'Asta', 'I Miei Giocatori' ]
 
 const Auction = () => {
     const params = useParams()
@@ -17,8 +20,7 @@ const Auction = () => {
 
     const { userId } = authToken ? jwt_decode(localStorage.getItem('authToken')) : { userId: '' }
 
-    const [updateUserTurn] = useMutation(UPDATE_AUCTION_USER_TURN)
-    const [closeBid] = useMutation(CLOSE_BID_OFFER)
+    const [tab, setTab] = useState('Asta')
 
     const { 
         data: auctionData, 
@@ -33,32 +35,11 @@ const Auction = () => {
     }
 
     const user = auctionData.auction.users.find(usr => usr._id === userId)
-    const userCredits = user ? user.credits : 0
     const users = auctionData.auction.users
     const myTurn = userId === auctionData.auction.turnOf._id
     const highestBid = auctionData.auction.bids.length ? auctionData.auction.bids.reduce((x, y) => {
         return y.bid > x.bid ? y : x
     }) : null
-
-    const closeOffer = () => {
-        const auctionId = auctionData.auction._id
-        const playerId = auctionData.auction.bidPlayer._id
-        closeBid({ variables: { auctionId, playerId }, })
-    }
-
-    const nextTurn = () => {
-        const maxIndex = auctionData.auction.users.length - 1
-        const currentIndex = auctionData.auction.users.findIndex(user => user._id === auctionData.auction.turnOf._id)
-        let nextInline
-
-        if (currentIndex === maxIndex || currentIndex > maxIndex) {
-            nextInline = 0
-        } else {
-            nextInline = currentIndex + 1
-        }
-        
-        updateUserTurn({ variables: { auctionId: auctionData.auction._id, userId: auctionData.auction.users[nextInline]._id } })
-    }
 
     // console.log(auctionData)
 
@@ -69,38 +50,39 @@ const Auction = () => {
             :  auctionData.auction.status === 'complete' 
                 ?   <AuctionComplete auctionData={auctionData}/>
                 :   
-                    <div className="container mx-auto py-5 min-h-screen flex justify-between">
-                        <section className="bg-white shadow-md mx-1 w-1/4 rounded-md">
-                            <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
-                                <h2>Partecipanti</h2>
-                            </div>
+                <>
+                    <div className="bg-darkBlue w-full">
+                        <div className="container mx-auto flex justify-between items-center">
+                            {tabItems.map(item => (
+                                <div 
+                                    key={item}
+                                    className={`
+                                        ${tab === item ? 'bg-lightBlue' : ''}
+                                        flex-1 flex justify-center items-center text-white uppercase text-xs font-bold md:mx-1 py-6 cursor-pointer
+                                    `}
+                                    onClick={() => setTab(item)}
+                                >
+                                    <p>{item}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="container mx-auto flex flex-1 justify-between relative">
+                     
+                        <section 
+                            className={`
+                                md:border md:border-gray-300 md:mx-1 m-0 flex-1 rounded-md z-10 md:block bg-bgGrey
+                                ${tab === 'Partecipanti' ? 'block' : 'hidden'}
+                            `}
+                        >
                             <div className="p-5">
                                 <Users users={users} auctionData={auctionData}/>
                             </div>
                         </section>
-                        <section className="bg-white shadow-md mx-1 w-2/4 min-h-full rounded-md flex flex-col">
-                            <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
-                                <h2>Asta</h2>
-                            </div>
-                            <div className="p-5 flex justify-between items-center shadow-sm text-sm uppercase font-semibold">
-                                <div>
-                                    Crediti:{" "}
-                                    <span className="text-white bg-red-500 px-3 py-1 rounded-md">{userCredits}</span>
-                                </div>
-                                {highestBid &&
-                                <div>
-                                        Miglior Offerta:{" "}
-                                        <span className="text-white bg-teal-400 px-3 py-1 rounded-md">{highestBid.from.nickName}: {highestBid.bid}</span>
-                                </div>
-                                }
-                            </div>
-                            <div className="p-5 shadow-sm rounded-md m-5 bg-red-500 text-white text-center uppercase text-sm font-semibold">
-                                {auctionData.auction.bidPlayer ?
-                                    <h3 className="font-bold">{auctionData.auction.bidPlayer.name}</h3>
-                                :
-                                    <h3>{auctionData.auction.turnOf.nickName} sta scegliendo un giocatore..</h3>
-                                }
-                            </div>
+
+                        <section className="md:border md:border-gray-300 md:mx-1 m-0 flex-1 min-h-full rounded-md flex flex-col md:relative absolute w-full">
+                            <AuctionHeader user={user} highestBid={highestBid} />
+                            <AuctionNotification auctionData={auctionData} />
                             <div className="flex-1 flex flex-col">
                                 <div className="flex-1">
                                     {auctionData.auction.bids.length > 0 &&
@@ -112,18 +94,20 @@ const Auction = () => {
                                 </div>
                             </div>
                         </section>
-                        <section className="bg-white shadow-md mx-1 w-1/4 rounded-md">
-                            <div className="bg-gray-900 text-white p-5 uppercase font-bold text-sm text-center rounded-t-md">
-                                <h2>La Mia Squadra</h2>
-                            </div>
+                        
+                        <section 
+                            className={`
+                            md:border md:border-gray-300 md:mx-1 m-0 flex-1 rounded-md z-10 md:block bg-bgGrey
+                                ${tab === 'I Miei Giocatori' ? 'block' : 'hidden'}
+                            `}
+                        >
                             <MyPlayers players={user.players}/>
                         </section>
+                        
                         <Players auctionData={auctionData} myTurn={myTurn}/>     
                     </div>           
+                </>
         }
-                {/* to be removed */}
-                {/* <button onClick={() => nextTurn()}> nextTurn</button>  */}
-                {/* <button onClick={() => closeOffer()}>Close Bid</button>  */}
         </>
     )
 }

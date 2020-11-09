@@ -40,6 +40,7 @@ export const LIVE_AUCTION = gql`
                 _id
                 name
                 role
+                team
             }
             bids {
                 bid

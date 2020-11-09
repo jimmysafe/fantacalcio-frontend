@@ -14,7 +14,8 @@ module.exports = {
         darkBlue: '#000548',
         gold:'#FFC400',
         darkGrey: '#474747',
-        lightGrey: '#C8C8C8'
+        lightGrey: '#C8C8C8',
+        bgGrey: '#F9F9F9'
       }
     },
   },
