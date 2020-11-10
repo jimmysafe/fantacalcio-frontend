@@ -3,7 +3,7 @@ import { useSubscription } from '@apollo/client'
 import { LIVE_AUCTION } from '../graphql/subscriptions/auction'
 import { Redirect, useParams } from 'react-router-dom'
 import Users from '../components/auction/Users'
-import Players from '../components/auction/Players'
+import Players from '../components/modals/Players'
 import jwt_decode from "jwt-decode";
 import Bids from '../components/auction/Bids'
 import BidActions from '../components/auction/BidActions'

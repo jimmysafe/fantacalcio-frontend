@@ -10,8 +10,7 @@ const Defenders = ({ auctionData, setLocked, auctionPlayer }) => {
     const already_chosen_players = auctionData.auction.chosenPlayers
     
     return (
-        <>
-            <h3 className="text-center uppercase text-xs py-2 font-bold text-white bg-teal-400 mb-5">Difensori</h3>
+        <div className="p-5">
             {data.defenders.map(player => {
                 if(!already_chosen_players.includes(player._id)){
                 return (
@@ -27,7 +26,7 @@ const Defenders = ({ auctionData, setLocked, auctionPlayer }) => {
                     </div>
                 )} else return null
             })}
-        </>
+        </div>
     )
 }
 

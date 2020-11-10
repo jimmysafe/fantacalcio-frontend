@@ -10,8 +10,7 @@ const Midfielders = ({ auctionData, setLocked, auctionPlayer }) => {
     const already_chosen_players = auctionData.auction.chosenPlayers
     
     return (
-        <>
-            <h3 className="text-center uppercase text-xs py-2 font-bold text-white bg-teal-400 mb-5">Centrocampisti</h3>
+        <div className="p-5">
             {data.midfielders.map(player => {
                 if(!already_chosen_players.includes(player._id)){
                     return (
@@ -28,7 +27,7 @@ const Midfielders = ({ auctionData, setLocked, auctionPlayer }) => {
                     )} else return null
                 }
             )}
-        </>
+        </div>
     )
 }
 
