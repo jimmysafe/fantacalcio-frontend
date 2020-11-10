@@ -77,7 +77,7 @@ const Auction = () => {
                             `}
                         >
                             <div className="p-5">
-                                <Users users={users} auctionData={auctionData}/>
+                                <Users users={users} />
                             </div>
                         </section>
 
