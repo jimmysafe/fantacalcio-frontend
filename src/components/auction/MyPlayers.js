@@ -14,22 +14,23 @@ const MyPlayers = ({ players }) => {
     ]
     
     return (
-        <div>
+        <div className="p-5">
             {sections.map(section => (
                 <section className="uppercase my-1" key={section.title}>
-                    <p className="p-2 text-xs font-bold bg-gray-900 text-white text-center">{section.title} ( {section.players.length} )</p>
-                    {section.players.map(x => (
-                        <div key={x.player._id} className="p-2 flex justify-between items-center text-xs font-bold my-1 mx-1 border border-gray-300">
-                            <p>{x.player.name}</p>
-                            <p 
-                                className="bg-red-500 text-white flex justify-center items-center rounded-md" 
-                                style={{ minWidth: 30, height: 30 }}
-                            >
-                                {x.amount_paid}
-                                <span className="lowercase">c</span>
-                            </p>
-                        </div>
-                    ))}
+                    <p className="py-3 text-xs font-bold bg-darkBlue rounded text-white text-center">{section.title} ( {section.players.length} )</p>
+                    <div className="p-3">
+                        {section.players.map(x => (
+                            <div key={x.player._id} className="bg-white shadow-lg rounded p-3 flex justify-between items-center text-xs font-bold my-2 mx-1">
+                                <p>{x.player.name}</p>
+                                <p 
+                                    className="bg-gold rounded-sm text-darkBlue flex justify-center items-center" 
+                                    style={{ minWidth: 45, height: 30 }}
+                                >
+                                    {x.amount_paid}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
                 </section>            
             ))}
         </div>

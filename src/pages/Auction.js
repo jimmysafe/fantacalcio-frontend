@@ -68,11 +68,11 @@ const Auction = () => {
                             ))}
                         </div>
                     </div>
-                    <div className="container mx-auto flex flex-1 justify-between relative">
+                    <div className="container mx-auto flex flex-1 justify-between relative overflow-hidden">
                      
                         <section 
                             className={`
-                                md:border md:border-gray-300 md:mx-1 m-0 flex-1 rounded-md z-10 md:block bg-bgGrey
+                                md:border md:border-gray-300 md:mx-1 m-0 flex-1 rounded-md z-10 md:block bg-bgGrey overflow-y-auto overflow-x-hidden
                                 ${tab === 'Partecipanti' ? 'block' : 'hidden'}
                             `}
                         >
@@ -99,7 +99,7 @@ const Auction = () => {
                         
                         <section 
                             className={`
-                            md:border md:border-gray-300 md:mx-1 m-0 flex-1 rounded-md z-10 md:block bg-bgGrey
+                            md:border md:border-gray-300 md:mx-1 m-0 flex-1 rounded-md z-10 md:block bg-bgGrey overflow-y-auto overflow-x-hidden
                                 ${tab === 'I Miei Giocatori' ? 'block' : 'hidden'}
                             `}
                         >

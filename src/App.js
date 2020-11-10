@@ -7,13 +7,14 @@ import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
 import Dashboard from './pages/Dashboard';
 import Nav from './components/Nav';
+import Layout from './components/Layout';
 
 
 
 const App = () => {
   return (
     <Router>
-      <main className="h-screen flex flex-col md:pb-3 p-0">
+      <Layout>
         <Nav />
         <Switch>
           <Route exact path="/">
@@ -32,7 +33,7 @@ const App = () => {
             <Login />
           </Route>
         </Switch>
-      </main>
+      </Layout>    
     </Router>
   );
 }
