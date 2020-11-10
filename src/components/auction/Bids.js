@@ -9,21 +9,23 @@ const Bids = ({ auctionData, highestBid }) => {
 
     const transitions = useTransition(bids, (_, i) => i, {
         from: {
-          transform: `translateY(150px)`,
+        //   transform: `translateY(150px)`,
+          bottom: 0,
           opacity: 1,
-          position: 'relative'
+          position: 'absolute',
+          width: "80%",
+          left: "10%",
         },
         enter: {
-          transform: `translateY(0px)`,
+        //   transform: `translateY(0px)`,
+          bottom: 60,
           opacity: 0,
-          position: 'absolute',
         },
         leave: {
-          transform: `translateY(0px)`,
           opacity: 0
         },
         config: {
-          duration: 700
+          duration: 500
         }
       });
 
@@ -49,22 +51,25 @@ const Bids = ({ auctionData, highestBid }) => {
         }
     }, [auctionData, activeTimer])
     
-    // const orderedBids = transitions.sort((a, b) => b.bid-a.bid).slice(0, 5);
     return (
-        <div className="flex p-5 flex-col h-full">
+        <div className="flex-1 flex flex-col">
             <div className="flex justify-center items-center p-3 flex-col">
                 <Bid bid={bids[bids.length-1].bid} from={bids[bids.length-1].from.nickName} opacity={100}/>
-                <Bid bid={bids[bids.length-1].bid} from={bids[bids.length-1].from.nickName} opacity={50}/>
-                <Bid bid={bids[bids.length-1].bid} from={bids[bids.length-1].from.nickName} opacity={25}/>
+                {bids.length >= 2 &&
+                    <Bid bid={bids[bids.length-2].bid} from={bids[bids.length-2].from.nickName} opacity={50}/>
+                }
+                {bids.length >= 3 && window.innerHeight > 667 &&
+                    <Bid bid={bids[bids.length-3].bid} from={bids[bids.length-3].from.nickName} opacity={25}/>
+                }
             </div>
-            <div className="flex-1 flex justify-center items-end relative bg-white flex-col">
+            <div className="flex-1 p-5 flex justify-center items-end relative bg-white flex-col w-full">
+                { showTimer && <Timer auctionData={auctionData} highestBid={highestBid}/> }
                 {transitions.map(({ item, props, key }) => {
                     return (
-                        
                         <animated.div 
                             key={key}
                             style={props}
-                            className="bg-gold text-darkGrey flex justify-between items-center font-semibold text-sm rounded w-full px-5 py-2 mb-1" 
+                            className="bg-gold text-darkGrey flex justify-between items-center font-semibold text-sm rounded px-5 py-2 mb-1" 
                         >
                             <p>{item.from.nickName}</p>
                             <p>{item.bid}</p>
@@ -72,8 +77,8 @@ const Bids = ({ auctionData, highestBid }) => {
                     )
                 })}
             </div>
-            { showTimer && <Timer auctionData={auctionData} highestBid={highestBid}/> }
         </div>
+
     )
 }
 

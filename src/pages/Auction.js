@@ -11,6 +11,7 @@ import MyPlayers from '../components/auction/MyPlayers'
 import AuctionComplete from './AuctionComplete'
 import AuctionHeader from '../components/auction/AuctionHeader'
 import AuctionNotification from '../components/auction/AuctionNotification'
+import WaitingSVG from '../images/waiting.svg'
 
 const tabItems = [ 'Partecipanti', 'Asta', 'I Miei Giocatori' ]
 
@@ -83,12 +84,15 @@ const Auction = () => {
                         <section className="md:border md:border-gray-300 md:mx-1 m-0 flex-1 min-h-full rounded-md flex flex-col md:relative absolute w-full">
                             <AuctionHeader user={user} highestBid={highestBid} />
                             <AuctionNotification auctionData={auctionData} />
-                            <div className="flex-1 flex flex-col">
-                                <div className="flex-1">
-                                    {auctionData.auction.bids.length > 0 &&
-                                        <Bids auctionData={auctionData} highestBid={highestBid}/>
-                                    }
-                                </div>
+                            <div className={`flex-1 flex flex-col ${!auctionData.auction.bidPlayer ? 'justify-between' : 'justify-end'}`}>
+                                {!auctionData.auction.bidPlayer && (
+                                    <div className="flex flex-1 justify-center items-center">
+                                        <img src={WaitingSVG} alt="waiting" className="w-1/2"/>
+                                    </div>
+                                )}
+                                {auctionData.auction.bids.length > 0 &&
+                                    <Bids auctionData={auctionData} highestBid={highestBid}/>
+                                }
                                 <BidActions auctionData={auctionData} highestBid={highestBid}/>
                             </div>
                         </section>

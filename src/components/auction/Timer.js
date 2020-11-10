@@ -31,10 +31,10 @@ const _Timer = ({ auctionData, highestBid }) => {
         ]}
     >
         {() => (
-            <div className="w-full p-5 rounded-md bg-red-500 text-white text-center">
-                <p>Asta per <span className="font-bold">{player.name}</span> si chiudera' in: </p>
-                <div className="font-bold text-lg">
-                    <Timer.Seconds />
+            <div className="w-full px-5 py-2 rounded-md bg-white text-darkBlue text-center text-xs">
+                <p>Asta per <span className="font-bold">{player.name}</span> chiude tra: </p>
+                <div className="font-bold text-lg text-gold">
+                    <Timer.Seconds />s
                 </div>
                 <p>Fai un offerta per rimanere in questa trattativa.</p>
             </div>

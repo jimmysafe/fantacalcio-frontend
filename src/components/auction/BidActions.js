@@ -4,8 +4,30 @@ import { ADD_BID } from '../../graphql/mutations/auction'
 import { useMutation } from '@apollo/client'
 import Slider from "react-input-slider";
 
+const sliderStyles = {
+    track: {
+        backgroundColor: 'white',
+        height: 10,
+        width: '100%'
+    },
+    active: {
+        backgroundColor: 'white'
+    },
+    thumb: {
+        backgroundColor: 'white',
+        width: 20,
+        height: 20
+    },
+    disabled: {
+        opacity: 0.5
+    }
+}
 
 const BidActions = ({ auctionData, highestBid }) => {
+
+    const [addBid] = useMutation(ADD_BID)
+    
+    const [sliderPos, setSliderPos] = useState(0)
 
     const { userId } = jwt_decode(localStorage.getItem('authToken'))
     const auctionId = auctionData.auction._id
@@ -28,7 +50,7 @@ const BidActions = ({ auctionData, highestBid }) => {
         return (
             <div className="absolute h-full w-full top-0 left-0 bg-black bg-opacity-25 flex justify-center items-center">
                 <p className="text-white font-bold uppercase">
-                    {role ? `Hai raggiunto il limite massimo di ${role}.` : 'Locked'}
+                    {role ? `Hai raggiunto il limite massimo di ${role}.` : 'In Attesa'}
                 </p>
             </div>
         )
@@ -69,20 +91,60 @@ const BidActions = ({ auctionData, highestBid }) => {
 
     return (
         <div className="bg-darkBlue">
-        <div className="flex justify-between relative px-5 py-3">
-            { canBid() }
-            <BidButton amount={bid(1)} userId={userId} auctionId={auctionId}/>
-            <BidButton amount={bid(5)} userId={userId} auctionId={auctionId}/>
-            <BidButton amount={bid(10)} userId={userId} auctionId={auctionId}/>
-            <BidButton amount={bid(20)} userId={userId} auctionId={auctionId}/>
-        </div>
-            <BidSlider userCredits={user.credits} userId={userId} auctionId={auctionId}/>
+            <div className="flex justify-between relative px-5 py-3">
+                { canBid() }
+                {!sliderPos ? (
+                    <>
+                        <BidButton amount={bid(1)} userId={userId} auctionId={auctionId}/>
+                        <BidButton amount={bid(5)} userId={userId} auctionId={auctionId}/>
+                        <BidButton amount={bid(10)} userId={userId} auctionId={auctionId}/>
+                        <BidButton amount={bid(20)} userId={userId} auctionId={auctionId}/>
+                    </>
+                ) : (
+                    <>
+                        <button 
+                            className="uppercase text-white font-semibold text-xs"
+                            onClick={() => setSliderPos(0)}
+                        >
+                            Annulla
+                        </button>
+
+                        <BidButton amount={sliderPos} userId={userId} auctionId={auctionId} disabled/>
+                        
+                        <button 
+                            className="uppercase text-white font-semibold text-xs"
+                            onClick={() => {
+                                addBid({ variables: {
+                                    userId,
+                                    auctionId,
+                                    bidAmount: sliderPos
+                                } })
+                                setSliderPos(0)
+                            }}
+                        >
+                            Conferma
+                        </button>
+                    </>
+                )
+                }
+            </div>
+            <div className="flex justify-between items-center px-8 py-5">
+                <Slider
+                    disabled={!user.credits || canBid()}
+                    styles={sliderStyles}
+                    axis="x"
+                    x={sliderPos}
+                    xmin={0}
+                    xmax={user.credits}
+                    onChange={ ({ x }) => setSliderPos(x) }
+                />
+            </div>
         </div>
     )
 }
 
 
-const BidButton = ({ amount, auctionId, userId }) => {
+const BidButton = ({ amount, auctionId, userId, disabled=false }) => {
     const [addBid] = useMutation(ADD_BID)
 
     const addBidAction = () => {
@@ -94,73 +156,16 @@ const BidButton = ({ amount, auctionId, userId }) => {
     }
 
     return (
-        <div 
+        <button 
+            disabled={disabled}
             onClick={() => addBidAction()}
             className="bg-gold rounded-sm py-2 px-3 text-sm font-semibold text-darkGrey flex justify-center items-center"
             style={{ minWidth: 70 }}
         >
             {amount}
-        </div>
+        </button>
     )
 }
 
-const BidSlider = ({ userCredits, auctionId, userId }) => {
-    const [addBid] = useMutation(ADD_BID)
-    
-    const [sliderPos, setSliderPos] = useState(0)
-    const [confirmButton, showConfirmButton] = useState(false)
-
-    const addBidAction = () => {
-        addBid({ variables: {
-            userId,
-            auctionId,
-            bidAmount: sliderPos
-        } })
-        setSliderPos(0)
-    }
-
-    const sliderStyles = {
-        track: {
-            backgroundColor: 'white',
-            height: 10,
-            width: '100%'
-        },
-        active: {
-            backgroundColor: 'white'
-        },
-        thumb: {
-            backgroundColor: 'white',
-            width: 20,
-            height: 20
-        },
-        disabled: {
-            opacity: 0.5
-        }
-    }
-
-    return (
-        <div className="flex justify-between items-center px-8 py-5">
-                <Slider
-                    disabled={!userCredits}
-                    styles={sliderStyles}
-                    axis="x"
-                    x={sliderPos}
-                    xmin={0}
-                    xmax={userCredits}
-                    onChange={({ x }) => setSliderPos(x)}
-                    onDragStart={() => showConfirmButton(false)}
-                    onDragEnd={() => showConfirmButton(true)}
-                />
-
-            {/* <div 
-                onClick={() => addBidAction()}
-                className="bg-red-500 mx-2 text-white rounded-full text-center cursor-pointer font-bold text-lg flex justify-center items-center"
-                style={{ minWidth: 50, height: 50 }}
-            >
-                {sliderPos}
-            </div> */}
-      </div>
-    )
-}
 
 export default BidActions
