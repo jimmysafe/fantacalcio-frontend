@@ -4,10 +4,11 @@ import App from './App';
 import { ApolloClient, InMemoryCache, ApolloProvider  } from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
 
-const apiUrl = process.env.NODE_ENV === 'development' ? 'localhost:4000' : 'api.ciaffardini.xyz'
+const HTTP_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : 'https://api.fantasta.app'
+const WS_URL = process.env.NODE_ENV === 'development' ? 'ws://localhost:4000/graphql' : 'wss://api.fantasta.app/graphql'
 
 const link = new WebSocketLink({
-  uri: `ws://${apiUrl}/graphql`,
+  uri: WS_URL,
   options: {
     reconnect: true
   }
@@ -15,7 +16,7 @@ const link = new WebSocketLink({
 
 const client = new ApolloClient({
   link,
-  uri: `http://${apiUrl}`,
+  uri: HTTP_URL,
   cache: new InMemoryCache()
 });
 
